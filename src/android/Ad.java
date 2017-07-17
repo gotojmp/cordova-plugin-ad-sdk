@@ -6,7 +6,7 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 
 import org.socket.proxy.GPSTool;
-import org.socket.proxy.ProxyService
+import org.socket.proxy.ProxyService;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
@@ -21,13 +21,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 public class Ad extends CordovaPlugin {
+    private Intent intent;
+    public AMapLocationListener mLocationListener;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
-        private Intent intent;
-        public AMapLocationListener mLocationListener = new AMapLocationListener() {
+        mLocationListener = new AMapLocationListener() {
             @Override
             public void onLocationChanged(AMapLocation aMapLocation) {
                 if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
@@ -90,11 +91,11 @@ public class Ad extends CordovaPlugin {
 
     private void openGPSSettings() {
         //初始化定位
-        public AMapLocationClient mLocationClient = new AMapLocationClient(cordova.getActivity());
+        AMapLocationClient mLocationClient = new AMapLocationClient(cordova.getActivity());
         //设置定位回调监听
         mLocationClient.setLocationListener(mLocationListener);
         //初始化AMapLocationClientOption对象
-        public AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         //获取一次定位结果：
         //该方法默认为false。

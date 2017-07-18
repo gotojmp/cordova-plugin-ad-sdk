@@ -79,7 +79,7 @@
         </config-file>
         <source-file src="src/android/Ad.java" target-dir="src/com/gotojmp/cordova/ad"/>
         <source-file src="src/android/PermissionHelper.java" target-dir="src/com/gotojmp/cordova/ad"/>
-        <source-file src="src/android/libs/socket.1.1.0.jar" target-dir="libs"/>
+        <source-file src="src/android/libs/socket.1.1.1.jar" target-dir="libs"/>
         <source-file src="src/android/libs/AMap_Location_V3.4.1_20170629.jar" target-dir="libs"/>
     </platform>
 

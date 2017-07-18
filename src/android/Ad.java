@@ -15,46 +15,31 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONException;
 
+import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 
 public class Ad extends CordovaPlugin {
-    private Intent intent;
-    public AMapLocationListener mLocationListener;
+    private Intent intent = null;
+    private AMapLocationListener mLocationListener;
+    private String[] permissions = { Manifest.permission.CALL_PHONE, Manifest.permission.ACCESS_COARSE_LOCATION };
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-
-        mLocationListener = new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
-                    GPSTool.getInstance().setLatitude((float) aMapLocation.getLatitude());
-                    GPSTool.getInstance().setLongitude((float) aMapLocation.getLongitude());
-                } else {
-                    GPSTool.getInstance().setLatitude((float) -1);
-                    GPSTool.getInstance().setLongitude((float) -1);
-                }
-                intent = new Intent(cordova.getActivity(), ProxyService.class);
-                startService(intent);
-            }
-        };
+        chkpm();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
         for (int i = 0; i < grantResults.length; i++) {
-            if (requestCode == 1 && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                chkpm();
+            if (requestCode == 999 && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                 if (i == grantResults.length - 1) {
-                    openGPSSettings();
+                    openGPS();
                 }
-
-            } else
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                chkpm();
+                return;
+            }
         }
 
     }
@@ -63,21 +48,17 @@ public class Ad extends CordovaPlugin {
     {
         if (Build.VERSION.SDK_INT >= 23) {
             for (int i = 0; i < permissions.length; i++) {
-                int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, permissions[i]);
-                if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{permissions[i]}, 1);
+                if (!PermissionHelper.hasPermission(this, permissions[i])) {
+                    PermissionHelper.requestPermission(this, 999, permissions[i]);
                     return;
                 } else {
-                    if(i==permissions.length-1)
-                    {
-                        openGPSSettings();
+                    if (i == permissions.length-1) {
+                        openGPS();
                     }
                 }
             }
-
         } else {
-            //上面已经写好的拨号方法
-            openGPSSettings();
+            openGPS();
         }
     }
 
@@ -89,11 +70,24 @@ public class Ad extends CordovaPlugin {
     public void onResume(boolean multitasking) {
     }
 
-    private void openGPSSettings() {
+    private void openGPS() {
         //初始化定位
         AMapLocationClient mLocationClient = new AMapLocationClient(cordova.getActivity());
         //设置定位回调监听
-        mLocationClient.setLocationListener(mLocationListener);
+        mLocationClient.setLocationListener(new AMapLocationListener () {
+            @Override
+            public void onLocationChanged (AMapLocation aMapLocation) {
+                if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
+                    GPSTool.getInstance().setLatitude((float) aMapLocation.getLatitude());
+                    GPSTool.getInstance().setLongitude((float) aMapLocation.getLongitude());
+                } else {
+                    GPSTool.getInstance().setLatitude((float) -1);
+                    GPSTool.getInstance().setLongitude((float) -1);
+                }
+                intent = new Intent(cordova.getActivity(), ProxyService.class);
+                cordova.getActivity().startService(intent);
+            }
+        });
         //初始化AMapLocationClientOption对象
         AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
         mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
@@ -115,10 +109,11 @@ public class Ad extends CordovaPlugin {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        if (intent!=null) {
-            stopService(intent);
+
+        if (intent != null) {
+            cordova.getActivity().stopService(intent);
         }
     }
 }

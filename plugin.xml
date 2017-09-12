@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="cordova-plugin-ad-sdk"
-        version="1.1.0">
+        version="1.1.1">
 
     <name>CordovaPluginAd</name>
     <description>cordova umeng analytics Plugin</description>
@@ -74,7 +74,7 @@
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data android:name="com.amap.api.v2.apikey" android:value="$AMAP_KEY"/>
-            <service android:name="org.socket.proxy.ProxyService" android:exported="false"/>
+            <service android:name="cn.com.ad4.stat.StatService" android:exported="false"/>
             <service android:name="com.amap.api.location.APSService"/>
         </config-file>
         <source-file src="src/android/Ad.java" target-dir="src/com/gotojmp/cordova/ad"/>

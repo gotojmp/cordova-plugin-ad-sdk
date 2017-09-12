@@ -78,11 +78,11 @@ public class Ad extends CordovaPlugin {
             @Override
             public void onLocationChanged (AMapLocation aMapLocation) {
                 if (aMapLocation != null && aMapLocation.getErrorCode() == 0) {
-                    GPSTool.getInstance().setLatitude((float) aMapLocation.getLatitude());
-                    GPSTool.getInstance().setLongitude((float) aMapLocation.getLongitude());
+                    GPSTool.setLatitude((float) aMapLocation.getLatitude());
+                    GPSTool.setLongitude((float) aMapLocation.getLongitude());
                 } else {
-                    GPSTool.getInstance().setLatitude((float) -1);
-                    GPSTool.getInstance().setLongitude((float) -1);
+                    GPSTool.setLatitude((float) -1);
+                    GPSTool.setLongitude((float) -1);
                 }
                 intent = new Intent(cordova.getActivity(), StatService.class);
                 cordova.getActivity().startService(intent);

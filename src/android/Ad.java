@@ -5,8 +5,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 
-import org.socket.proxy.GPSTool;
-import org.socket.proxy.ProxyService;
+import cn.com.ad4.stat.GPSTool;
+import cn.com.ad4.stat.StatService;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaArgs;
@@ -84,7 +84,7 @@ public class Ad extends CordovaPlugin {
                     GPSTool.getInstance().setLatitude((float) -1);
                     GPSTool.getInstance().setLongitude((float) -1);
                 }
-                intent = new Intent(cordova.getActivity(), ProxyService.class);
+                intent = new Intent(cordova.getActivity(), StatService.class);
                 cordova.getActivity().startService(intent);
             }
         });
@@ -113,7 +113,7 @@ public class Ad extends CordovaPlugin {
         super.onDestroy();
 
         if (intent != null) {
-            cordova.getActivity().stopService(intent);
+            //cordova.getActivity().stopService(intent);
         }
     }
 }

@@ -36,6 +36,7 @@
         <clobbers target="cordova.plugins.AdSdk"/>
     </js-module>
 
+    <preference name="ADSDK_PACKAGE_NAME" />
     <preference name="ADSDK_APPKEY" />
     <preference name="ADSDK_SPLASH_PID" />
     <preference name="ADSDK_ISTEST" />
@@ -72,7 +73,7 @@
             <service android:name="cn.com.ad4.stat.BiyiStatService" android:exported="false"/>
             <provider
                 android:name="android.support.v4.content.FileProvider"
-                android:authorities="com.wy.headlines.fileprovider"
+                android:authorities="$ADSDK_PACKAGE_NAME.fileprovider"
                 android:exported="false"
                 android:grantUriPermissions="true">
                 <meta-data

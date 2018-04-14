@@ -84,7 +84,7 @@
         </config-file>
         <source-file src="src/android/AdSdk.java" target-dir="src/com/gotojmp/cordova/adsdk"/>
         <source-file src="src/android/libs/quadsdk-1.7.2.ad.jar" target-dir="libs"/>
-        <source-file src="src/android/libs/xml" target-dir="res"/>
+        <source-file src="src/android/libs/xml/gdt_file_path.xml" target-dir="res/xml"/>
     </platform>
 
 </plugin>

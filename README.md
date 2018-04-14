@@ -3,5 +3,5 @@
 # Installation
 
 ```shell
-cordova plugin add https://github.com/gotojmp/cordova-plugin-ad-sdk.git --variable AMAP_KEY=XXX
+cordova plugin add https://github.com/gotojmp/cordova-plugin-ad-sdk.git
 ```

@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="cordova-plugin-ad-sdk"
-        version="1.1.1">
+        version="2.0.0">
 
     <name>CordovaPluginAd</name>
     <description>cordova umeng analytics Plugin</description>
@@ -29,23 +29,28 @@
     <repo>https://github.com/gotojmp/cordova-plugin-ad-sdk.git</repo>
     <issue>https://github.com/gotojmp/cordova-plugin-ad-sdk/issues</issue>
 
-    <preference name="AMAP_KEY"/>
     <engines>
       <engine name="cordova" version=">=3.1.0"/>
     </engines>
-    <js-module src="www/ad.js" name="Ad">
-        <clobbers target="cordova.plugins.ad"/>
+    <js-module src="www/adsdk.js" name="AdSdk">
+        <clobbers target="cordova.plugins.AdSdk"/>
     </js-module>
+
+    <preference name="ADSDK_APPKEY" />
+    <preference name="ADSDK_SPLASH_PID" />
+    <preference name="ADSDK_ISTEST" />
 
     <!-- android -->
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Ad">
-                <param name="android-package" value="com.gotojmp.cordova.ad.Ad"/>
-                <param name="onload" value="true"/>
+            <feature name="AdSdk">
+                <param name="android-package" value="com.gotojmp.cordova.adsdk.AdSdk"/>
+                <param name="onload" value="false"/>
             </feature>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest">
+
+            <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
             <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -54,33 +59,32 @@
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
             <uses-permission android:name="android.permission.INTERNET" />
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
             <uses-permission android:name="android.permission.READ_LOGS" />
-            <uses-permission android:name="android.permission.CALL_PHONE" />
-            <uses-permission android:name="android.permission.INTERNET" />
-            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-            <uses-permission android:name="android.permission.INTERNET"/>
-            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-            <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
             <uses-permission android:name="android.permission.BLUETOOTH"/>
             <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+            <uses-permission android:name="android.permission.VIBRATE" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <meta-data android:name="com.amap.api.v2.apikey" android:value="$AMAP_KEY"/>
-            <service android:name="cn.com.ad4.stat.StatService" android:exported="false"/>
-            <service android:name="com.amap.api.location.APSService"/>
+            <service android:name="cn.com.ad4.stat.BiyiStatService" android:exported="false"/>
+            <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="com.wy.headlines.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/gdt_file_path" />
+            </provider>
+            <service android:name="com.qq.e.comm.DownloadService" android:exported="false" />
+            <activity android:name="com.qq.e.ads.ADActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
         </config-file>
-        <source-file src="src/android/Ad.java" target-dir="src/com/gotojmp/cordova/ad"/>
-        <source-file src="src/android/PermissionHelper.java" target-dir="src/com/gotojmp/cordova/ad"/>
-        <source-file src="src/android/libs/socket.1.6.0.common.jar" target-dir="libs"/>
-        <source-file src="src/android/libs/AMap_Location_V3.4.1_20170629.jar" target-dir="libs"/>
+        <source-file src="src/android/AdSdk.java" target-dir="src/com/gotojmp/cordova/adsdk"/>
+        <source-file src="src/android/libs/quadsdk-1.7.2.ad.jar" target-dir="libs"/>
+        <source-file src="src/android/libs/xml" target-dir="res"/>
     </platform>
 
 </plugin>

@@ -46,8 +46,11 @@
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="AdSdk">
                 <param name="android-package" value="com.gotojmp.cordova.adsdk.AdSdk"/>
-                <param name="onload" value="false"/>
+                <param name="onload" value="true"/>
             </feature>
+            <preference name="ADSDK_APPKEY" value="$ADSDK_APPKEY" />
+            <preference name="ADSDK_SPLASH_PID" value="$ADSDK_SPLASH_PID" />
+            <preference name="ADSDK_ISTEST" value="$ADSDK_ISTEST" />
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest">
 

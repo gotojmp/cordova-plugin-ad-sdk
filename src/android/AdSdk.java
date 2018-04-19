@@ -126,6 +126,17 @@ public class AdSdk extends CordovaPlugin {
         return value;
     }
 
+    private static int getDeviceWidth() {
+        try {
+            DisplayMetrics displayMetrics = cordova.getActivity().getResources()
+                    .getDisplayMetrics();
+            int width = displayMetrics.widthPixels;
+            return width;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     /**
      * Executes the request and returns PluginResult.
      *
@@ -165,7 +176,14 @@ public class AdSdk extends CordovaPlugin {
                                 }
                             });
 
-                            RelativeLayout.LayoutParams lpBanner = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dpToPixels(100));
+                            int w = quadBannerAd.getW();
+                            int h = quadBannerAd.getH();
+                            int sw = getDeviceWidth();
+                            int bh = dpToPixels(100);
+                            if (w > 0 && h > 0 && sw > 0) {
+                                bh = h * sw / w;
+                            }
+                            RelativeLayout.LayoutParams lpBanner = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, bh);
                             lpBanner.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                             quadBannerAd.setLayoutParams(lpBanner);
                             quadBannerAd.addView(closeBtn);

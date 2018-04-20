@@ -127,7 +127,7 @@ public class AdSdk extends CordovaPlugin {
         return value;
     }
 
-    private static int getDeviceWidth() {
+    private int getDeviceWidth() {
         try {
             DisplayMetrics displayMetrics = cordova.getActivity().getResources()
                     .getDisplayMetrics();

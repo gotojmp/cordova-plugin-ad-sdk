@@ -293,6 +293,25 @@ public class AdSdk extends CordovaPlugin {
             }
             callbackContext.success(0);
         }
+        else if (action.equals("reportClickNativeAd")) {
+            final int id = args.getInt(0);
+            final String x1 = args.getString(1);
+            final String y1 = args.getString(2);
+            final String x2 = args.getString(3);
+            final String y2 = args.getString(4);
+            if (id > 0) {
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        QuadNativeAd nativeAd = nativeAds.get("native-" + id);
+                        if (nativeAd != null) {
+                            nativeAd.onAdReportClick(x1, y1, x2, y2);
+                        }
+                    }
+                });
+            }
+            callbackContext.success(0);
+        }
         else if (action.equals("clickNativeAd")) {
             final int id = args.getInt(0);
             final String x1 = args.getString(1);

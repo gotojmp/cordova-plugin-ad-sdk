@@ -32,6 +32,10 @@
         exec(null, null, "AdSdk", "showNativeAd", [id]);
     };
 
+    AdSdk.prototype.reportClickNativeAd = function (id, x1, y1, x2, y2) {
+        exec(null, null, "AdSdk", "reportClickNativeAd", [id, x1, y1, x2, y2]);
+    };
+
     AdSdk.prototype.clickNativeAd = function (id, x1, y1, x2, y2) {
         exec(null, null, "AdSdk", "clickNativeAd", [id, x1, y1, x2, y2]);
     };

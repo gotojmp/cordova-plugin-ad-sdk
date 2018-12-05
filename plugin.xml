@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="cordova-plugin-ad-sdk"
-        version="2.1.0">
+        version="2.1.1">
 
     <name>CordovaPluginAd</name>
     <description>cordova umeng analytics Plugin</description>

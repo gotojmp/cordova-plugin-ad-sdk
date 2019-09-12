@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="cordova-plugin-ad-sdk"
-        version="2.1.1">
+        version="2.1.2">
 
     <name>CordovaPluginAd</name>
     <description>cordova umeng analytics Plugin</description>
@@ -83,11 +83,16 @@
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/gdt_file_path" />
             </provider>
-            <service android:name="com.qq.e.comm.DownloadService" android:exported="false" />
-            <activity android:name="com.qq.e.ads.ADActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+            <activity android:name="cn.com.ad4.stat.ADActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            <activity android:name="cn.com.ad4.quad.view.QuadPortraitActivity"
+                android:screenOrientation="portrait"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
+            <activity android:name="cn.com.ad4.quad.view.QuadLandscapeActivity"
+                android:screenOrientation="landscape"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
         </config-file>
         <source-file src="src/android/AdSdk.java" target-dir="src/com/gotojmp/cordova/adsdk"/>
-        <source-file src="src/android/libs/quadsdk-1.8.3.ad.jar" target-dir="libs"/>
+        <source-file src="src/android/libs/quadsdk-1.9.8.ad.jar" target-dir="libs"/>
         <source-file src="src/android/libs/xml/gdt_file_path.xml" target-dir="res/xml"/>
         <framework src="com.android.support:appcompat-v7:23+" />
     </platform>
